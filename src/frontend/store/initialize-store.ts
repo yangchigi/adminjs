@@ -2,22 +2,23 @@ import { Store } from 'redux'
 
 import createStore, { ReduxState } from './store.js'
 import {
-  initializeLocale,
-  initializeResources,
+  initializeAssets,
   initializeBranding,
   initializeDashboard,
-  initializeAssets,
-  initializePaths,
+  initializeLocale,
   initializePages,
-  setCurrentAdmin,
+  initializePaths,
+  initializeResources,
   initializeVersions,
+  setCurrentAdmin,
 } from './actions/index.js'
 
 import AdminJS from '../../adminjs.js'
+import { getAssets, getBranding, getLocales, getTheme } from '../../backend/utils/options-parser/options-parser.js'
 import { CurrentAdmin } from '../../current-admin.interface.js'
-import pagesToStore from './pages-to-store.js'
-import { getBranding, getAssets, getLocales } from '../../backend/utils/options-parser/options-parser.js'
 import { defaultLocale } from '../../locale/index.js'
+import { initializeTheme } from './actions/initialize-theme.js'
+import pagesToStore from './pages-to-store.js'
 
 export const initializeStore = async (
   admin: AdminJS,
@@ -42,10 +43,12 @@ export const initializeStore = async (
   const branding = await getBranding(admin, currentAdmin)
   const assets = await getAssets(admin, currentAdmin)
   const locales = await getLocales(admin, currentAdmin)
+  const theme = await getTheme(admin, currentAdmin)
 
   store.dispatch(initializeBranding(branding || {}))
   store.dispatch(initializeLocale(locales || defaultLocale))
   store.dispatch(initializeAssets(assets || {}))
+  if (theme) store.dispatch(initializeTheme(theme))
 
   const {
     loginPath, logoutPath, rootPath, dashboard, pages, assetsCDN,
