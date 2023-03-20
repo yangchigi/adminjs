@@ -22,7 +22,7 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     width: 100%;
     height: 100%;
-    color: ${({ theme }) => theme.colors.grey100}
+    color: ${({ theme }) => theme.colors.text}
   }
   #app {
     isolation: isolate;
@@ -53,6 +53,10 @@ const App: React.FC = () => {
   const resourceUrl = h.resourceUrl({ resourceId })
   const pageUrl = h.pageUrl(pageName)
 
+  useEffect(() => {
+    console.log(window.THEME)
+  }, [])
+
   /**
    * When defining AdminJS routes, we use Routes component twice.
    * This results in warnings appearing in console, for example about not being able to locate
@@ -75,10 +79,7 @@ const App: React.FC = () => {
       <GlobalStyle />
       <Box height="100%" flex data-css="app">
         {sidebarVisible ? (
-          <Overlay
-            onClick={(): void => toggleSidebar(!sidebarVisible)}
-          />
-        ) : null}
+          <Overlay zIndex={49} onClick={(): void => toggleSidebar(!sidebarVisible)} />) : null}
         <Sidebar isVisible={sidebarVisible} data-css="sidebar" />
         <Box flex flexGrow={1} flexDirection="column" overflowY="auto" bg="bg" data-css="app-content">
           <TopBar toggleSidebar={() => toggleSidebar(!sidebarVisible)} />
