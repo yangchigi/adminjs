@@ -1,11 +1,21 @@
 import {
-  Box, Button, FormGroup, H2, H5, Illustration,
-  Input, Label, MadeWithLove, MessageBox, Text,
+  Box,
+  BoxProps,
+  Button,
+  FormGroup,
+  H2,
+  H5,
+  Illustration,
+  Input,
+  Label,
+  MadeWithLove,
+  MessageBox,
+  Text,
 } from '@adminjs/design-system'
 import React from 'react'
 import { I18nextProvider } from 'react-i18next'
 import { useSelector } from 'react-redux'
-import { styled, createGlobalStyle } from 'styled-components'
+import { createGlobalStyle, styled } from 'styled-components'
 import { useTranslation } from '../../hooks/index.js'
 import { ReduxState } from '../../store/store.js'
 import initTranslations from '../../utils/adminjs.i18n.js'
@@ -19,7 +29,7 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
-const Wrapper = styled(Box)`
+const Wrapper = styled(Box)<BoxProps>`
   align-items: center;
   justify-content: center;
   flex-direction: column;
@@ -32,8 +42,8 @@ const StyledLogo = styled.img`
 `
 
 export type LoginProps = {
-  message?: string;
-  action: string;
+  message?: string
+  action: string
 }
 
 export const Login: React.FC<LoginProps> = (props) => {
@@ -83,11 +93,10 @@ export const Login: React.FC<LoginProps> = (props) => {
           >
             <H5 marginBottom="xxl">
               {branding.logo ? (
-                <StyledLogo
-                  src={branding.logo}
-                  alt={branding.companyName}
-                />
-              ) : branding.companyName}
+                <StyledLogo src={branding.logo} alt={branding.companyName} />
+              ) : (
+                branding.companyName
+              )}
             </H5>
             {message && (
               <MessageBox
@@ -110,13 +119,15 @@ export const Login: React.FC<LoginProps> = (props) => {
               />
             </FormGroup>
             <Text mt="xl" textAlign="center">
-              <Button variant="contained">
-                {translateButton('login')}
-              </Button>
+              <Button variant="contained">{translateButton('login')}</Button>
             </Text>
           </Box>
         </Box>
-        {branding.withMadeWithLove ? (<Box mt="xxl"><MadeWithLove /></Box>) : null}
+        {branding.withMadeWithLove ? (
+          <Box mt="xxl">
+            <MadeWithLove />
+          </Box>
+        ) : null}
       </Wrapper>
     </I18nextProvider>
   )
