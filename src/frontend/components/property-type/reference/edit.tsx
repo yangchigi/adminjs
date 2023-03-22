@@ -46,7 +46,13 @@ const Edit: FC<CombinedProps> = (props) => {
   const error = record?.errors[property.path]
 
   const selectedId = useMemo(
-    () => flat.get(record?.params, property.path) as string | undefined,
+    () => {
+      const a = flat.get(record?.params, property.path) as string | undefined
+      if (a && typeof a === 'object') {
+        return a["id"]
+      }
+      return a
+    },
     [record],
   )
   const [loadedRecord, setLoadedRecord] = useState<RecordJSON | undefined>()
